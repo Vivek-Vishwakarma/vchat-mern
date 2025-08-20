@@ -31,7 +31,12 @@ function App() {
     <>
       <div className="dark:bg-gray-900 dark:text-gray-100">
         <RouterProvider router={router} />
-        <ToastContainer theme="dark" transition={Slide} autoClose={2000} />
+        <ToastContainer
+          theme="dark"
+          transition={Slide}
+          autoClose={2000}
+          pauseOnFocusLoss={false}
+        />
       </div>
     </>
   );

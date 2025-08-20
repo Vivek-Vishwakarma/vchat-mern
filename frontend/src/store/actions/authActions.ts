@@ -11,9 +11,11 @@ export const registerUser: any = createAsyncThunk(
         email,
         password,
       });
+      toast.success("Registration successful!");
       return user.data;
     } catch (error: any) {
       if (error.response && error.response.data.message) {
+        toast.error(error.response.data.message);
         return rejectWithValue(error.response.data.message);
       } else {
         return rejectWithValue(error.message);

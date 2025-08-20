@@ -7,9 +7,10 @@ import {
 import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/actions/authActions";
+import { BiLoader } from "react-icons/bi";
 
 const Login = () => {
-  const { success } = useSelector((state: any) => state.auth);
+  const { success, loading } = useSelector((state: any) => state.auth);
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Login = () => {
     dispatch(loginUser(form));
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     if (success) {
       navigate("/chats");
     }
@@ -110,9 +111,11 @@ const Login = () => {
 
             <div>
               <button
+                disabled={loading}
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 dark:hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center items-center rounded-md bg-indigo-600 dark:bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 dark:hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
+                {loading && <BiLoader className="mr-3 size-5 animate-spin" />}
                 Sign in
               </button>
             </div>
