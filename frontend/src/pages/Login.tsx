@@ -25,7 +25,7 @@ const Login = () => {
     dispatch(loginUser(form));
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     if (success) {
       navigate("/chats");
     }

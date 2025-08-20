@@ -1,19 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, registerUser } from "../actions/authActions";
+import {
+  loginUser,
+  logOutUser,
+  registerUser,
+  verifyUser,
+} from "../actions/authActions";
 
 export interface AuthState {
   loading: boolean;
   userInfo: Record<string, any>;
-  userToken: string | null;
   error: string | null;
   success: boolean;
+  isUserLoggedIn: boolean;
 }
 const initialState: AuthState = {
   loading: false,
   userInfo: {},
-  userToken: null,
   error: null,
   success: false,
+  isUserLoggedIn: false,
 };
 
 const authSlice = createSlice({
@@ -29,8 +34,8 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.userInfo = action.payload ?? {};
-        state.userToken = action.payload?.token ?? null;
         state.success = true;
+        state.isUserLoggedIn = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -43,16 +48,42 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.userInfo = action.payload ?? {};
-        state.userToken = action.payload?.token ?? null;
         state.success = true;
+        state.isUserLoggedIn = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(logOutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logOutUser.fulfilled, (state) => {
+        state.loading = false;
+        state.userInfo = {};
+        state.success = false;
+        state.isUserLoggedIn = false;
+      })
+      .addCase(logOutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(verifyUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = action.payload ?? {};
+        state.success = true;
+        state.isUserLoggedIn = true;
+      })
+      .addCase(verifyUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
-
-export const {} = authSlice.caseReducers;
 
 export default authSlice.reducer;

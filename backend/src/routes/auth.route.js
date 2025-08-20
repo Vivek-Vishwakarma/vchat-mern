@@ -17,7 +17,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 // Route for user logout
-router.post("/logut", logout);
+router.post("/logout", logout);
 
 // Update user profile
 router.post("/update-profile", authenticate, updateProfile);
