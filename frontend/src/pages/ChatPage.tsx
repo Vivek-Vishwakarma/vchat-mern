@@ -1,13 +1,19 @@
-import { Link } from "react-router";
+import Chats from "../components/Chats";
 import NavBar from "../components/NavBar";
+import Sidebar from "../components/Sidebar";
 
 const ChatPage = () => {
   return (
     <div>
       <NavBar />
-      <h1 className="text-3xl font-bold text-center mt-10 dark:text-gray-100">
-        <Link to={"/login"}>Chat Page</Link>
-      </h1>
+      <div className="w-11/12 mx-auto p-4 bg-gray-800 rounded-lg flex gap-4">
+        <div className="w-3/12 bg-gray-900 p-4 rounded">
+          <Sidebar />
+        </div>
+        <div className="w-full bg-gray-900 p-4 rounded">
+          <Chats />
+        </div>
+      </div>
     </div>
   );
 };

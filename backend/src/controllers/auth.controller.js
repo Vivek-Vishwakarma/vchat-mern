@@ -45,7 +45,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body || {};
+    const { email : email, password } = req.body || {};
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password required" });
     }
@@ -61,8 +61,8 @@ export const login = async (req, res) => {
     }
 
     generateToken(user._id, res);
-    const { _id: id, name, email: userEmail, profilePicture } = user;
-    return res.json({ id, name, userEmail, profilePicture });
+    const { _id: id, name, profilePicture } = user;
+    return res.json({ id, name, email, profilePicture, email: user.email });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal server error" });
@@ -81,9 +81,9 @@ export const logout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { name, email, profilePicture } = req.body || {};
-    if (!name || !email) {
-      return res.status(400).json({ message: "Name and email are required" });
+    const { name, profilePicture } = req.body || {};
+    if (!name) {
+      return res.status(400).json({ message: "Name are required" });
     }
 
     let imageUrl = "";
@@ -94,7 +94,7 @@ export const updateProfile = async (req, res) => {
 
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { name, email, profilePicture: imageUrl },
+      { name, profilePicture: imageUrl },
       { new: true }
     ).select("-password");
 

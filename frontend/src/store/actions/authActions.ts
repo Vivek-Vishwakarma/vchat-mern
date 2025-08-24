@@ -64,9 +64,29 @@ export const logOutUser: any = createAsyncThunk(
 export const verifyUser: any = createAsyncThunk(
   "auth/check",
   async ({}, { rejectWithValue }) => {
-    try {      
-     const user = await axiosInstance.get(`/auth/check`);
-     return user.data;
+    try {
+      const user = await axiosInstance.get(`/auth/check`);
+      return user.data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const updateUser: any = createAsyncThunk(
+  "auth/update-profile",
+  async ({ name, profilePicture }: any, { rejectWithValue }) => {
+    try {
+      const user = await axiosInstance.put(`/auth/update-profile`, {
+        name,
+        profilePicture,
+      });
+      toast.success("Profile updated successfully!");
+      return user.data;
     } catch (error: any) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

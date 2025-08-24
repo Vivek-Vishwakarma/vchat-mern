@@ -3,6 +3,7 @@ import {
   loginUser,
   logOutUser,
   registerUser,
+  updateUser,
   verifyUser,
 } from "../actions/authActions";
 
@@ -80,6 +81,20 @@ const authSlice = createSlice({
         state.isUserLoggedIn = true;
       })
       .addCase(verifyUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = action.payload ?? {};
+        state.success = true;
+        state.isUserLoggedIn = true;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

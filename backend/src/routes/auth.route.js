@@ -20,7 +20,7 @@ router.post("/login", login);
 router.post("/logout", logout);
 
 // Update user profile
-router.post("/update-profile", authenticate, updateProfile);
+router.put("/update-profile", authenticate, updateProfile);
 
 // Route to get user profile (protected)
 router.get("/check", authenticate, checkAuthentication);
